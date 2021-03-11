@@ -10,20 +10,20 @@ time_table_drop = "drop table if exists time"
 
 songplay_table_create = ("""CREATE TABLE IF NOT EXISTS songplays
                             (
-                            songplay_id text PRIMARY KEY,
+                            songplay_id SERIAL PRIMARY KEY,
                             start_time timestamp REFERENCES time(start_time),
-                            user_id text REFERENCES users(user_id),
+                            user_id int REFERENCES users(user_id),
                             level varchar,
                             song_id text REFERENCES songs(song_id),
                             artist_id text REFERENCES artists(artist_id),
-                            session_id text,
+                            session_id int,
                             location varchar,
                             user_agent varchar
                             );""")
 
 user_table_create = ("""create table if not exists users 
                         (
-                        user_id text PRIMARY KEY, 
+                        user_id INT PRIMARY KEY, 
                         first_name varchar, 
                         last_name varchar, 
                         gender varchar, 
@@ -55,12 +55,12 @@ time_table_create = ("""create table if not exists time
                         week int, 
                         month int,
                         Year int, 
-                        weekday int
+                        weekday TEXT
                         );""")
 
 # INSERT RECORDS
 
-songplay_table_insert = ("""insert into songs (songplay_id,
+songplay_table_insert = ("""insert into songplays (
                             start_time,
                             user_id,
                             level,
@@ -69,39 +69,62 @@ songplay_table_insert = ("""insert into songs (songplay_id,
                             session_id,
                             location,
                             user_agent)
-                        values (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                        values (%s,%s,%s,%s,%s,%s,%s,%s)
                         """)
 
-user_table_insert = ("""insert into songs (user_id, 
+user_table_insert = ("""insert into users (user_id, 
                         first_name, 
                         last_name, 
                         gender, 
                         level)
                         values (%s,%s,%s,%s,%s)
+                        on conflict (user_id)
+                        do update
+                            set level = excluded.level
                         """)
 
-song_table_insert = ("""insert into songs (song_id,title,artist_id,year,duration)
+song_table_insert = ("""insert into songs (song_id,
+                        title,
+                        artist_id,
+                        year,
+                        duration)
                         values (%s,%s,%s,%s,%s)
+                        on conflict (song_id)
+                        do nothing
                         """)
 
-artist_table_insert = ("""insert into artists (artist_id,name,location,latitude,longitude)
+artist_table_insert = ("""insert into artists (artist_id,
+                        name,
+                        location,
+                        latitude,
+                        longitude)
                         values (%s,%s,%s,%s,%s)
+                        on conflict (artist_id)
+                        do nothing
                         """)
 
 
-time_table_insert = ("""insert into songs (start_time, 
+time_table_insert = ("""insert into time (start_time, 
                         hour, day, 
                         week, 
                         month,
                         Year, 
                         weekday)
                         values (%s,%s,%s,%s,%s,%s,%s)
+                        on conflict (start_time)
+                        do nothing
                         """)
 
 # FIND SONGS
 
-song_select = ("""
-""")
+song_select = ("""select songs.song_id, artists.artist_id
+                from songs join artists on songs.artist_id = artists.artist_id
+                where songs.title = %s
+                  AND
+                artists.name = %s
+                  AND
+                songs.duration = %s
+                """)
 
 # QUERY LISTS
 
