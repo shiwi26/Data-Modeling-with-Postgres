@@ -10,9 +10,9 @@ time_table_drop = "drop table if exists time"
 
 songplay_table_create = ("""CREATE TABLE IF NOT EXISTS songplays
                             (
-                            songplay_id SERIAL PRIMARY KEY,
+                            songplay_id SERIAL PRIMARY KEY NOT NULL,
                             start_time timestamp REFERENCES time(start_time),
-                            user_id int REFERENCES users(user_id),
+                            user_id int NOT NULL REFERENCES users(user_id),
                             level varchar,
                             song_id text REFERENCES songs(song_id),
                             artist_id text REFERENCES artists(artist_id),
@@ -23,26 +23,26 @@ songplay_table_create = ("""CREATE TABLE IF NOT EXISTS songplays
 
 user_table_create = ("""create table if not exists users 
                         (
-                        user_id INT PRIMARY KEY, 
-                        first_name varchar, 
-                        last_name varchar, 
+                        user_id INT PRIMARY KEY NOT NULL, 
+                        first_name varchar NOT NULL, 
+                        last_name varchar NOT NULL, 
                         gender varchar, 
                         level varchar
                         );""")
 
 song_table_create = ("""create table if not exists songs 
                         (
-                        song_id text PRIMARY KEY, 
-                        title varchar, 
-                        artist_id text, 
+                        song_id text PRIMARY KEY NOT NULL, 
+                        title varchar NOT NULL, 
+                        artist_id text NOT NULL, 
                         year int, 
-                        duration numeric
+                        duration numeric NOT NULL
                         );""")
 
 artist_table_create = ("""create table if not exists artists 
                             (
-                            artist_id text PRIMARY KEY, 
-                            name varchar, 
+                            artist_id text PRIMARY KEY NOT NULL, 
+                            name varchar NOT NULL, 
                             location varchar, 
                             latitude numeric, 
                             longitude numeric
@@ -50,12 +50,12 @@ artist_table_create = ("""create table if not exists artists
 
 time_table_create = ("""create table if not exists time 
                         (
-                        start_time timestamp PRIMARY KEY, 
-                        hour int, day int, 
-                        week int, 
-                        month int,
-                        Year int, 
-                        weekday TEXT
+                        start_time timestamp PRIMARY KEY NOT NULL, 
+                        hour int NOT NULL, day int NOT NULL, 
+                        week int NOT NULL, 
+                        month int NOT NULL,
+                        Year int NOT NULL, 
+                        weekday TEXT NOT NULL
                         );""")
 
 # INSERT RECORDS
