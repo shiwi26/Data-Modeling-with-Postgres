@@ -23,7 +23,7 @@ The schema used for this exercise is the Star Schema:
 There is one main fact table containing all the measures associated to each event (user song plays), 
 and 4 dimentional tables, each with a primary key that is being referenced with the fact table.
 
-On why to use a relational database for this case:
+Why to use relational modeling?
 - The data types are structured, no need to use NoSQL
 - The volume of data is ok
 - Need to model the data to answer business questions, i.e joins
@@ -82,15 +82,15 @@ python3 create_tables.py
 
 3º Used test.ipynb Jupyter Notebook to interactively verify that all tables were created correctly.
 
-4º completed etl.ipynb Notebook to create the blueprint of the pipeline to process and insert all data into the tables.
+4º completed etl.ipynb Notebook to create the ETL pipeline with only one file processed.
 
-5º Once verified that base steps were correct by checking with test.ipynb, filled in etl.py program.
+5º Verified that the above step was correct by checking with test.ipynb, and then completed etl.py program, which is to process all the data files.
 
 6º Run etl in console:
  ```
 python3 etl.py
 ```
-6º Verify results using test.ipynb notebook
+6º Verified final results using test.ipynb notebook
 
 ## ETL pipeline (etl.py)
 
@@ -98,19 +98,18 @@ python3 etl.py
 
 2. Read the songs data as dataframe
     
-3. For each row, only select the columns that I am interested in and then insert data into respective tables   
-        
-    c. We insert this data into their respective databases.
-
-4. Read the log data as dataframe
+    a. For each row, only select the columns that I am interested in and then insert data into respective tables
+     
+3. Read the log data as dataframe
 
     a. Select rows where page = 'NextSong' only
 
-    b. Convert the ts column to datetime, Extract the timestamp, hour, day, week of year, month, year, and weekday from the column
+    b. Convert the 'ts' column to datetime, Extract the timestamp, hour, day, week of year, month, year, and weekday from the column
 
-    c. Store user data into our user table
+    c. Store user data into our 'users' table
 
-    d. Lookup song and artist id from their tables by song name, artist name and song duration that in our song play data. and then load the data together with other columns
+    d. Finally process the fact table 'songplays'
+    Lookup song and artist id from their tables by song name, artist name and song duration that in our song play data. and then load the data together with other columns
 
 
 ### Analysis
