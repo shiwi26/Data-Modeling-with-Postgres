@@ -115,4 +115,5 @@ python3 etl.py
 ### Analysis
 %sql SELECT b.title, COUNT(a.user_id) FROM songplays a JOIN songs b ON a.song_id = b.song_id GROUP BY b.title;  
 
+There can be more. 
 
